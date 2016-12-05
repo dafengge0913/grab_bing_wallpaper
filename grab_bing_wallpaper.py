@@ -16,7 +16,11 @@ url_pattern = "http://cn.bing.com/HPImageArchive.aspx?format=js&idx={idx}&n=1&nc
 url = url_pattern.format(idx=idx, time_stamp=time_stamp)
 data = urlopen(url).read().decode('utf-8')
 json_str = json.loads(data)
-img_url = json_str["images"][0]["url"]
+try:
+    img_url = json_str["images"][0]["url"]
+except TypeError:
+    print("can not found url, maybe it is too early")
+    exit()
 print("download", img_url)
 file_name = img_url.split("/")[-1]
 urlretrieve(img_url, r"C:\Users\wangjf\Desktop\other\壁纸\\" + file_name)
